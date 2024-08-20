@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: orange;
+            border: none;
+            cursor: pointer;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f4f4f4;
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="text" id="todoInput" placeholder="add new">
+    <button id="addButton">Add</button>
+
+    <ul id="todoList">
+        <li>Read a book</li>
+        <li>Lunch with Caro</li>
+        <li>Feed the dog</li>
+    </ul>
+
+    <script>
+        const todoInput = document.getElementById('todoInput');
+        const addButton = document.getElementById('addButton');
+        const todoList = document.getElementById('todoList');
+
+        function addTodo() {
+            const newTodo = todoInput.value.trim();
+            if (newTodo !== "") {
+                const li = document.createElement('li');
+                li.textContent = newTodo;
+                todoList.appendChild(li);
+                todoInput.value = '';
+
+                // Store the updated todo list in cookies
+                storeTodosInCookies();
+            }
+        }
+
+        addButton.addEventListener('click', addTodo);
+
+        function storeTodosInCookies() {
+            // Get the current list of todos
+            const todos = Array.from(todoList.children).map(li => li.textContent);
+            // Convert the list to a string and store it in cookies
+            document.cookie = `todos=${JSON.stringify(todos)}; path=/;`;
+        }
+    </script>
+
+</body>
+</html>
